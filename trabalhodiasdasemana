@@ -1,46 +1,47 @@
-@Entity
-public class Disciplina {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Pessoa {
     private Long id;
     private String nome;
-    // Outros atributos e métodos
+    private String email;
+
+    // Getters e setters
 }
 
-@Entity
+public class Aluno {
+    private Long id;
+    private Pessoa pessoa;
+
+    // Getters e setters
+}
+
 public class Professor {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private Pessoa pessoa;
+
+    // Getters e setters
+}
+
+public class Curso {
     private Long id;
     private String nome;
-    // Outros atributos e métodos
+
+    // Getters e setters
 }
 
-@Entity
-public class Horario {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Disciplina {
     private Long id;
-    private DayOfWeek diaSemana;
-    private LocalTime horario;
-    @ManyToOne
+    private String nome;
+
+    // Getters e setters
+}
+
+public class Turma {
+    private Long id;
     private Disciplina disciplina;
-    @ManyToOne
     private Professor professor;
-    @ManyToOne
-    private Sala sala;
-    // Outros atributos e métodos
-}
+    private List<Aluno> alunos;
 
-@Entity
-public class Sala {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String numero;
-    // Outros atributos e métodos
+    // Getters e setters
 }
-
 
 @Component
 public class DadosIniciais implements CommandLineRunner {
