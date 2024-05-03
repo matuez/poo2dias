@@ -1,0 +1,151 @@
+@Entity
+public class Disciplina {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String nome;
+    // Outros atributos e métodos
+}
+
+@Entity
+public class Professor {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String nome;
+    // Outros atributos e métodos
+}
+
+@Entity
+public class Horario {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private DayOfWeek diaSemana;
+    private LocalTime horario;
+    @ManyToOne
+    private Disciplina disciplina;
+    @ManyToOne
+    private Professor professor;
+    @ManyToOne
+    private Sala sala;
+    // Outros atributos e métodos
+}
+
+@Entity
+public class Sala {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String numero;
+    // Outros atributos e métodos
+}
+
+
+@Component
+public class DadosIniciais implements CommandLineRunner {
+
+    @Autowired
+    private DisciplinaRepository disciplinaRepository;
+
+    @Autowired
+    private ProfessorRepository professorRepository;
+
+    @Autowired
+    private SalaRepository salaRepository;
+
+    @Override
+    public void run(String... args) throws Exception {
+        // Inserir disciplinas
+        Disciplina vivencias = new Disciplina();
+        vivencias.setNome("Vivências");
+        disciplinaRepository.save(vivencias);
+
+        Disciplina sistemasOperacionais = new Disciplina();
+        sistemasOperacionais.setNome("Sistemas Operacionais");
+        disciplinaRepository.save(sistemasOperacionais);
+
+        Disciplina eticaLegislacao = new Disciplina();
+        eticaLegislacao.setNome("Ética e Legislação");
+        disciplinaRepository.save(eticaLegislacao);
+
+        Disciplina programacaoOO = new Disciplina();
+        programacaoOO.setNome("Programação Orientada a Objetos");
+        disciplinaRepository.save(programacaoOO);
+
+        // Inserir professores
+        Professor leila = new Professor();
+        leila.setNome("Leila");
+        professorRepository.save(leila);
+
+        Professor marcelo = new Professor();
+        marcelo.setNome("Marcelo");
+        professorRepository.save(marcelo);
+
+        Professor vanessa = new Professor();
+        vanessa.setNome("Vanessa");
+        professorRepository.save(vanessa);
+
+        Professor leanderson = new Professor();
+        leanderson.setNome("Leanderson");
+        professorRepository.save(leanderson);
+
+        Professor anaPaula = new Professor();
+        anaPaula.setNome("Ana Paula");
+        professorRepository.save(anaPaula);
+
+        // Inserir salas
+        Sala c331 = new Sala();
+        c331.setNumero("C331");
+        salaRepository.save(c331);
+
+        Sala c115 = new Sala();
+        c115.setNumero("C115");
+        salaRepository.save(c115);
+
+        Sala c311 = new Sala();
+        c311.setNumero("C311");
+        salaRepository.save(c311);
+
+        Sala c323 = new Sala();
+        c323.setNumero("C323");
+        salaRepository.save(c323);
+
+        // Inserir horários
+        Horario segundaLeila = new Horario();
+        segundaLeila.setDiaSemana(DayOfWeek.MONDAY);
+        segundaLeila.setHorario(LocalTime.of(8, 0));
+        segundaLeila.setDisciplina(vivencias);
+        segundaLeila.setProfessor(leila);
+        segundaLeila.setSala(c331);
+        horarioRepository.save(segundaLeila);
+
+        Horario tercaMarcelo = new Horario();
+        tercaMarcelo.setDiaSemana(DayOfWeek.TUESDAY);
+        tercaMarcelo.setHorario(LocalTime.of(10, 0));
+        tercaMarcelo.setDisciplina(sistemasOperacionais);
+        tercaMarcelo.setProfessor(marcelo);
+        tercaMarcelo.setSala(c115);
+        horarioRepository.save(tercaMarcelo);
+
+     
+
+@Service
+public class HorarioService {
+
+    @Autowired
+    private HorarioRepository horarioRepository;
+
+    public void imprimirHorario() {
+        List<Horario> horarios = horarioRepository.findAll();
+        for (Horario horario : horarios) {
+            System.out.println("Dia da semana: " + horario.getDiaSemana());
+            System.out.println("Horário: " + horario.getHorario());
+            System.out.println("Disciplina: " + horario.getDisciplina().getNome());
+            System.out.println("Professor: " + horario.getProfessor().getNome());
+            System.out.println("Sala: " + horario.getSala().getNumero());
+            System.out.println();
+        }
+    }
+}
+
